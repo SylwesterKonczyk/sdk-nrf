@@ -11,6 +11,7 @@
 		zephyr,entropy = &psa_rng;
 		zephyr,uart-mcumgr = &uart136;
 		zephyr,bt-hci-ipc = &ipc0;
+		zephyr,console = &uart137;
 	};
 
 	psa_rng: psa-rng {
@@ -44,5 +45,22 @@ ipc0: &cpuapp_cpurad_ipc {
 };
 
 &uart136 {
+	/delete-property/ hw-flow-control;
+};
+
+uart137_default: &uart135_default {};
+uart137_sleep: &uart135_sleep {};
+
+&uart137 {
+	status = "okay";
+	memory-regions = <&cpuapp_dma_region>;
+	current-speed = <115200>;
+	pinctrl-0 = <&uart137_default>;
+	pinctrl-1 = <&uart137_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+
+&uart137 {
 	/delete-property/ hw-flow-control;
 };

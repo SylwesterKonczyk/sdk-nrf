@@ -79,8 +79,8 @@ int suit_dfu_initialize(void)
 		(void *)device_info.mapped_address, device_info.partition_size);
 
 #if CONFIG_SUIT_CLEANUP_ON_INIT
+	LOG_ERR("CONFIG_SUIT_CLEANUP_ON_INIT is ON");
 	suit_dfu_cleanup();
-
 #else /* CONFIG_SUIT_CLEANUP_ON_INIT */
 	const uint8_t *uc_env_addr = NULL;
 	size_t uc_env_size = 0;
@@ -98,6 +98,7 @@ int suit_dfu_initialize(void)
 #endif /* CONFIG_SUIT_CLEANUP_ON_INIT */
 
 #if CONFIG_SUIT_STREAM_IPC_PROVIDER
+	LOG_ERR("CONFIG_SUIT_STREAM_IPC_PROVIDER is ON");
 	suit_ipc_streamer_provider_init();
 #endif
 

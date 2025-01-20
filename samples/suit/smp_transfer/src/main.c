@@ -28,12 +28,13 @@ int main(void)
 		printk("Cannot init LEDs (err: %d)\r\n", ret);
 	}
 
-	printk("Hello world from %s blinks: %d, BUILD: %s %s\r\n", CONFIG_BOARD, CONFIG_N_BLINKS,
-	       __DATE__, __TIME__);
-
 	if (IS_ENABLED(CONFIG_MCUMGR_TRANSPORT_BT)) {
 		start_smp_bluetooth_adverts();
 	}
+
+	k_msleep(250);
+	printk("\nMAIN Hello world from %s blinks: %d, BUILD: %s %s\r\n", CONFIG_BOARD, CONFIG_N_BLINKS,
+	       __DATE__, __TIME__);
 
 	while (1) {
 		for (int i = 0; i < CONFIG_N_BLINKS; i++) {

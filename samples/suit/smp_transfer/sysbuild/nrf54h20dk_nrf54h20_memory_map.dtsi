@@ -7,12 +7,12 @@
 &cpuapp_rx_partitions {
 	/delete-node/ partition@a6000;
 	cpuapp_recovery_partition: partition@a5000 {
-		reg = <0xa5000 DT_SIZE_K(72)>;
+		reg = <0xa5000 DT_SIZE_K(136)>;
 	};
 
 	/delete-node/ partition@94000;
-	cpuapp_slot0_partition: partition@b7000 {
-		reg = <0xb7000 DT_SIZE_K(256)>;
+	cpuapp_slot0_partition: partition@c7000 {
+		reg = <0xc7000 DT_SIZE_K(192)>;
 	};
 
 	/* Delete PPR code partition */

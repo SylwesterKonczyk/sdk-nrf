@@ -17,5 +17,7 @@ int main(void)
 		start_smp_bluetooth_adverts();
 	}
 
+	k_msleep(250);
+	printk("\nRECOVERY APP, BUILD: %s %s\r\n", __DATE__, __TIME__);
 	return 0;
 }
