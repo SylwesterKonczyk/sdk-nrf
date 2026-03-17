@@ -1,0 +1,11 @@
+#
+# Copyright (c) 2026 Nordic Semiconductor
+#
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+#
+
+menuconfig NRF_TRACE_UTILS
+	bool "NRF Trace Utils"
+	help
+	  Clock cycles and cache efficiency measurement tool
+

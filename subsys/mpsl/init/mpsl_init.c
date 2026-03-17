@@ -203,6 +203,9 @@ BUILD_ASSERT(MPSL_TIMESLOT_SESSION_COUNT <= MPSL_TIMESLOT_CONTEXT_COUNT_MAX,
 static uint8_t __aligned(4) timeslot_context[TIMESLOT_MEM_SIZE];
 #endif
 
+void trace_utils_section_enter(uint32_t id);
+void trace_utils_section_leave(void);
+
 static void mpsl_low_prio_irq_handler(const void *arg)
 {
 	mpsl_work_submit(&mpsl_low_prio_work);
@@ -231,7 +234,9 @@ static void mpsl_timer0_isr_wrapper(const void *args)
 {
 	ARG_UNUSED(args);
 
+	trace_utils_section_enter(MPSL_TIMER_IRQn);
 	MPSL_IRQ_TIMER0_Handler();
+	trace_utils_section_leave();
 }
 
 static void mpsl_rtc0_isr_wrapper(const void *args)
@@ -243,14 +248,18 @@ static void mpsl_rtc0_isr_wrapper(const void *args)
 		rtc_pretick_rtc0_isr_hook();
 	}
 
+	trace_utils_section_enter(MPSL_RTC_IRQn);
 	MPSL_IRQ_RTC0_Handler();
+	trace_utils_section_leave();
 }
 
 static void mpsl_radio_isr_wrapper(const void *args)
 {
 	ARG_UNUSED(args);
 
+	trace_utils_section_enter(MPSL_RADIO_IRQn);
 	MPSL_IRQ_RADIO_Handler();
+	trace_utils_section_leave();
 }
 
 static void mpsl_lib_irq_disable(void)
@@ -279,7 +288,9 @@ static void mpsl_lib_irq_connect(void)
 #else /* !IS_ENABLED(CONFIG_MPSL_DYNAMIC_INTERRUPTS) */
 ISR_DIRECT_DECLARE(mpsl_timer0_isr_wrapper)
 {
+	trace_utils_section_enter(MPSL_TIMER_IRQn);
 	MPSL_IRQ_TIMER0_Handler();
+	trace_utils_section_leave();
 
 	return 0;
 }
@@ -290,14 +301,19 @@ ISR_DIRECT_DECLARE(mpsl_rtc0_isr_wrapper)
 	    IS_ENABLED(CONFIG_SOC_NRF5340_CPUNET)) {
 		rtc_pretick_rtc0_isr_hook();
 	}
+
+	trace_utils_section_enter(MPSL_RTC_IRQn);
 	MPSL_IRQ_RTC0_Handler();
+	trace_utils_section_leave();
 
 	return 0;
 }
 
 ISR_DIRECT_DECLARE(mpsl_radio_isr_wrapper)
 {
+	trace_utils_section_enter(MPSL_RADIO_IRQn);
 	MPSL_IRQ_RADIO_Handler();
+	trace_utils_section_leave();
 
 	return 0;
 }

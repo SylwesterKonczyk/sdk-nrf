@@ -6,11 +6,17 @@
 
 #include <zephyr/kernel.h>
 
+void trace_utils_init(void);
+void trace_utils_report(void);
+
 int main(void)
 {
+
+	trace_utils_init();
 	while (1) {
-		k_busy_wait(1000000);
-		k_msleep(1000);
+
+		k_msleep(10000);
+		trace_utils_report();
 	}
 
 	return 0;

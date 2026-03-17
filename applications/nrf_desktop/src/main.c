@@ -12,6 +12,8 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(MODULE);
 
+void trace_utils_init(void);
+void trace_utils_report(void);
 
 int main(void)
 {
@@ -20,5 +22,13 @@ int main(void)
 	} else {
 		module_set_state(MODULE_STATE_READY);
 	}
+
+	trace_utils_init();
+
+	while (1) {
+		k_msleep(1000);
+		trace_utils_report();
+	}
+
 	return 0;
 }

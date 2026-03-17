@@ -23,6 +23,9 @@ static K_WORK_DEFINE(event_processor, event_processor_fn);
 static sys_slist_t eventq = SYS_SLIST_STATIC_INIT(&eventq);
 static struct k_spinlock lock;
 
+void trace_utils_section_enter(uint32_t id);
+void trace_utils_section_leave(void);
+
 static bool log_is_event_displayed(const struct event_type *et)
 {
 	size_t idx = et - _event_type_list_start;
@@ -139,6 +142,7 @@ void __weak app_event_manager_free(void *addr)
 
 static void event_processor_fn(struct k_work *work)
 {
+	trace_utils_section_enter(1010);
 	sys_slist_t events = SYS_SLIST_STATIC_INIT(&events);
 
 	/* Make current event list local. */
@@ -146,6 +150,7 @@ static void event_processor_fn(struct k_work *work)
 
 	if (sys_slist_is_empty(&eventq)) {
 		k_spin_unlock(&lock, key);
+		trace_utils_section_leave();
 		return;
 	}
 
@@ -202,6 +207,8 @@ static void event_processor_fn(struct k_work *work)
 
 		app_event_manager_free(aeh);
 	}
+
+	trace_utils_section_leave();
 }
 
 void _event_submit(struct app_event_header *aeh)

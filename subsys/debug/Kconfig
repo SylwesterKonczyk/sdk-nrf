@@ -10,5 +10,6 @@ rsource "coredump/Kconfig"
 rsource "cpu_load/Kconfig"
 rsource "etb_trace/Kconfig"
 rsource "ppi_trace/Kconfig"
+rsource "trace_utils/Kconfig"
 
 endmenu
